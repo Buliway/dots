@@ -1,0 +1,17 @@
+# Тут будут бинды
+
+# Чтоб копирование работало на wayland. Взял тут https://yazi-rs.github.io/docs/tips
+[[manager.prepend_keymap]]
+on   = [ "y" ]
+exec = [ "yank", '''
+	shell --confirm 'for path in "$@"; do echo "file://$path"; done | wl-copy -t text/uri-list'
+''' ]
+
+
+# Чтоб копирование работало на xorg. Взял тут https://yazi-rs.github.io/docs/tips
+# [[manager.prepend_keymap]]
+# on   = [ "y" ]
+# exec = [ "yank", '''
+# 	shell --confirm 'echo "$@" | xclip -i -selection clipboard -t text/uri-list'
+# ''' ]
+
