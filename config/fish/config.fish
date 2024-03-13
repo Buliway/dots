@@ -12,6 +12,7 @@ end
 # Переменные для n, который управляет версиями node. Аналог nvm
 set -gx N_PREFIX $HOME/.n
 set -gx fish_user_paths $N_PREFIX/bin $fish_user_paths
+ssh-add ~/.ssh/id_ed25519
 
 # Команда ya работает как yazi, но при выходе переносит меня в каталог, где я был в yazi
 function ya
