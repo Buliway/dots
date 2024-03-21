@@ -1,0 +1,25 @@
+[Default]
+save_dir=$HOME/Pictures/Screenshots
+save_filename_format=swappy-%d%m%Y-%H%M%S.png
+
+# toggle the paint panel on or off upon startup
+show_panel=true
+
+# default line size (must be between 1 and 50)
+line_size=5
+
+# default text size (must be between 10 and 50)
+text_size=20
+
+# font used to render text, its format is pango friendly
+# text_font=?
+
+# mode activated at application start 
+# (must be one of: brush|text|rectangle|ellipse|arrow|blur, matching is case-insensitive)
+paint_mode=arrow
+
+# used to make the application exit after saving the picture or copying it to the clipboard
+early_exit=true
+
+# used to toggle shape filling (for the rectangle and ellipsis tools) on or off upon startup
+# fill_shape=true
