@@ -10,6 +10,7 @@
 - [Установка yt-dlp](#yt-dlp)
 - [Скачивать и клипать онлайн видео и стримы](#streamsavelua)
 - [Скопировать данные о видео](#copystufflua)
+- [Установка ff2mpv](#установка-ff2mpv)
 
 ## TODO
 
@@ -84,3 +85,31 @@ sudo chmod a+rx /usr/local/bin/yt-dlp
 - `Ctrl + s` - Текущий текст субтитров
 - `Ctrl + d` - Продолжительность видео
 - `Ctrl + m` - Метаданные видео
+
+
+### Установка ff2mpv
+
+Сначала [это](https://addons.mozilla.org/en-US/firefox/addon/ff2mpv/) расширение в браузер ставишь. Потом надо гит клон в любой каталог:
+```sh
+git clone https://github.com/woodruffw/ff2mpv
+cd ff2mpv
+```
+После этого надо активировать их установочный скрипт с нужными параметрами запуска.
+```sh
+./install.sh chromium
+./install.sh chrome
+./install.sh brave
+./install.sh edge
+./install.sh firefox
+```
+Если в списке нет нужного браузера, то надо ставить для кастом браузера, с указанием того, на чём он основан и с путём:
+```sh
+./install.sh custom-chromium $HOME/.config/chromium
+./install.sh custom-firefox $HOME/.mozilla
+```
+
+В моём случае надо было указать команду так:
+```sh
+./install.sh custom-firefox $HOME/.librewolf
+```
+
