@@ -167,10 +167,10 @@ function create_select_tracklist_type_menu_opener(menu_title, track_type, track_
         elseif value == '{load}' then
             mp.command(load_command)
         else
-			if value and track_type == "audio" and meta.modifiers.ctrl then
+			if value and track_type == "audio" and meta.modifiers.ctrl then	-- Select only one specific audio track
 				mp.set_property("lavfi-complex", "")
 				mp.commandv('set', track_prop, value and value or 'no')
-			elseif value and track_type == "audio" then
+			elseif value and track_type == "audio" then						-- Selecting Multiple Audio Tracks by default
 				local lavfi_complex = ""
 				local track_id = 0
 				local track_selected = 0
@@ -213,6 +213,7 @@ function create_select_tracklist_type_menu_opener(menu_title, track_type, track_
 			else
 				mp.commandv('set', track_prop, value and value or 'no')
 			end
+			-- mp.commandv('set', track_prop, value and value or 'no')
 
 			-- If subtitle track was selected, assume the user also wants to see it
 			if value and track_type == 'sub' then

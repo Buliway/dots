@@ -1,10 +1,4 @@
---[[
-Cut script for mpv.
-- msg.info and msg.error - log info
-- mp.osd_message - show osd message (2 = 2 seconds)
-]]--
-
-local msg = require 'mp.msg'
+-- Simple cut script for mpv. Only for local files.
 
 local start_time = nil
 local end_time = nil
@@ -32,7 +26,6 @@ local function create_clip(action)
     if start_time and end_time then
 
         if end_time <= start_time then
-            msg.error("End time must be greater than start time.")
             mp.osd_message("End time must be greater than start time.", 2)
             return
         end
@@ -51,8 +44,9 @@ local function create_clip(action)
                 "-ss", tostring(start_time), -- Начальное время для копирования
                 "-t", tostring(duration),    -- Длительность копируемого сегмента
                 "-i", input_file,            -- Путь к исходному файлу
+                "-vf", "scale=-1:720",       -- Масштабирование видео до 720p, сохраняя соотнешение сторон исходного видео
                 "-pix_fmt", "yuv420p",       -- Формат пикселей для выходного видео
-                "-crf", "16",                -- Качество видео (чем меньше значение, тем выше качество)
+                "-crf", "26",                -- Качество видео (чем меньше значение, тем выше качество) (В стоке было 16)
                 "-preset", "superfast",      -- Предустановленный уровень скорости кодирования
                 output_file .. extension     -- Путь к выходному файлу
             }
@@ -67,12 +61,11 @@ local function create_clip(action)
                 "-i", input_file,            -- Путь к исходному файлу
                 "-c", "copy",                -- Использовать копирование без перекодировки
                 "-map", "0",                 -- Скопировать все потоки (аудио, видео, субтитры и т.д.) с первого входного файла
-                -- "-dn",                       -- Игнорирует потоки данных (если они есть), что полезно для копирования частей видео без необходимости в данных.
+                "-dn",                       -- Игнорирует потоки данных (если они есть), что полезно для копирования частей видео без необходимости в данных.
                 "-avoid_negative_ts", "make_zero",  -- Избежать отрицательных меток времени, делая их равными нулю
                 output_file .. extension     -- Путь к выходному файлу
             }
         else
-            msg.error("Unsupported action: " .. action)
             mp.osd_message("Unsupported action: " .. action, 2)
             return
         end
@@ -86,7 +79,6 @@ local function create_clip(action)
         }, function() mp.osd_message("Clip created successfully", 2) end)  -- Обратный вызов, который будет вызван после завершения команды ffmpeg
 
     else
-        msg.error("Start time or end time is not set.")
         mp.osd_message("Start time or end time is not set.", 2)
     end
 end
@@ -96,22 +88,18 @@ local function handle_key_binding(key)
     if key == "g" then
         start_time = mp.get_property_number("time-pos")
         format_start_time = format_time(start_time)
-        msg.info("Start time set to: " .. format_start_time)
         mp.osd_message("Start time set to: " .. format_start_time, 2)
     elseif key == "G" then
         start_time = 0
         format_start_time = format_time(start_time)
-        msg.info("Start time set to the beginning of the video")
         mp.osd_message("Start time set to the beginning of the video", 2)
     elseif key == "h" then
         end_time = mp.get_property_number("time-pos")
         format_end_time = format_time(end_time)
-        msg.info("End time set to: " .. format_end_time)
         mp.osd_message("End time set to: " .. format_end_time, 2)
     elseif key == "H" then
         end_time = mp.get_property_number("duration")
         format_end_time = format_time(end_time)
-        msg.info("End time set to the end of the video")
         mp.osd_message("End time set to the end of the video", 2)
     elseif key == "alt+r" then
         create_clip("copy")
